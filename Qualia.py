@@ -1,5 +1,7 @@
 
 import os
+from pickle import TRUE
+import this
 import keyboard
 import time
 import subprocess
@@ -31,20 +33,17 @@ def setup():
     print(' ')
 
 def loop():
-    loopies = 0
-    while True:
-        loopies = loopies + 1
-        time.sleep(.01)
-        if loopies > 100:
-            loopies = 0
-            blink()
-
-        if keyboard.is_pressed("q"):
-            print("You pressed q")
-            break
+    thisKey = keyboard.read_key()
+    if thisKey == 'esc':
+        print('escape')
+        return False
+    
+    return True
 
 setup()
-loop()
+while loop():
+    blink()
 
-print(W+'i r Qualia ')
+print('good')
+print('bye')
 print(' ')
