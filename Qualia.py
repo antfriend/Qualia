@@ -15,25 +15,34 @@ B  = '\033[34m' # blue
 P  = '\033[35m' # purple
 X = '\0338' # set position?
 
+loopies = 0
+
 def move (y, x):
-    print("\033[%d;%dH" % (y, x))
+    print('\033[%d;%dH' % (y, x))
 
 def blink():
     move(1,1)
-    print(G+"-_-"+W)
+    print(G+'-_-'+W)
     time.sleep(.1)
     move(1,1)
-    print(G+"o_o"+W)
+    print(G+'o_o'+W)
+    print(' ')
     time.sleep(.1)
 
 
 blink()
-print(W+"i r Qualia "q)
-print(" ")
+print(' ')
+print(W+'i r Qualia ')
+print(' ')
 blink()
 
 
 while True:
+    loopies = loopies + 1
+    time.sleep(.0q1)
+    if loopies > 100:
+        loopies = 0
+        blink()
 
     if keyboard.is_pressed("q"):
         print("You pressed q")
