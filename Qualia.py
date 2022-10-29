@@ -31,7 +31,7 @@ def setup():
     print(' ')
 
 def loop():
-    loopies = 0q
+    loopies = 0
     while True:
         loopies = loopies + 1
         time.sleep(.01)
