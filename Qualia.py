@@ -7,7 +7,7 @@ import keyboard
 import time
 # import subprocess
 # subprocess.run('', shell=True)
-# from algoliasearch.search_client import SearchClient
+from algoliasearch.search_client import SearchClient
 os.system("cls")
 #
 # ansi color codes - aka "VT100" https://en.wikipedia.org/wiki/VT100
@@ -21,8 +21,8 @@ B  = '\033[34m' # blue
 P  = '\033[35m' # purple
 # HIDE = '\033[25h'
     
-# client = SearchClient.create("UBHJRCJSD3", "")
-# index = client.init_index("qualia")
+client = SearchClient.create("UBHJRCJSD3", "")
+index = client.init_index("qualia")
 
 intype = ' '
 
@@ -58,7 +58,10 @@ def interpreKey(thisKey):
             return False
         case 'enter':
             move(5,1)
-            print('enter')
+            record = {"objectID": 1, "name": intype}
+            index.save_object(record).wait()
+            results = index.search(intype)
+            print(results["hits"][0])
             return True
         case _:
             intype += thisKey
