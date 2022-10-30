@@ -45,14 +45,12 @@ def setup():
 
 def input():
     global intype
-    move(3,1)
+    move(3,3)
     print(G + '[' + W + intype + G + ']' + W)
 
-def addKey(key):
-    global intype
-    intype += key
 
 def interpreKey(thisKey):
+    global intype
     match thisKey:
         case 'esc':
             move(5,1)
@@ -63,13 +61,12 @@ def interpreKey(thisKey):
             print('enter')
             return True
         case _:
-            addKey(thisKey)
+            intype += thisKey
             return True
 
 def loop():
     thisKey = keyboard.read_key()
     reloop = interpreKey(thisKey)
-    blink()
     input()
     return reloop
 
