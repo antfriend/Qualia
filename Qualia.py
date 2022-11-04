@@ -24,7 +24,7 @@ P  = '\033[35m' # purple
 client = SearchClient.create("UBHJRCJSD3", "")
 index = client.init_index("qualia")
 
-intype = ' '
+intype = ''
 
 def move (y, x):
     print('\033[%d;%dH' % (y, x))
@@ -40,14 +40,14 @@ def blink():
 
 def setup():
     blink()
-    input()
+    render_Inputbox()
     print(' ')
 
-def input():
+def render_Inputbox():
     global intype
-    move(3,3)
-    print(G + '[' + W + intype + G + ']' + W)
-
+    move(3,1)
+    print(G + '[' + W + intype + G + ']   ' + W)
+    # time.sleep(.3)
 
 def interpreKey(thisKey):
     global intype
@@ -56,26 +56,46 @@ def interpreKey(thisKey):
             move(5,1)
             print('escape')
             return False
+        case 'backspace':
+            intype = intype[:-len(intype)-1]
+            # blink()
+            # time.sleep(.5)
+            return True
+        case 'space':
+            intype += ' '
+            return True
+        case 'shift':
+            return True
         case 'enter':
-            move(5,1)
-            record = {"objectID": 1, "name": intype}
-            index.save_object(record).wait()
-            results = index.search(intype)
-            print(results["hits"][0])
+            blink()
+            what_is_the_meaning_of_this(intype)
+            intype = ''
             return True
         case _:
             intype += thisKey
             return True
 
+def what_is_the_meaning_of_this(statement):
+
+    record = {"objectID": statement.replace(" ", "_"), "statement": statement}
+    index.save_object(record).wait()
+    results = index.search(statement)
+
+    move(5,1)
+    print(results["hits"][0])
+
 def loop():
+    statement = input("your words") 
+    what_is_the_meaning_of_this(statement)
     thisKey = keyboard.read_key()
     reloop = interpreKey(thisKey)
-    input()
+
     return reloop
 
 setup()
 while loop():
-    blink()
+    render_Inputbox()
+    # blink()
 
 print('good')
 print('bye')
